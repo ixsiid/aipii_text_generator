@@ -166,6 +166,24 @@
 			font-size: 150%;
 		}
 
+		#textarea {
+			margin-top: 1em;
+			padding: 0.2em;
+			width: auto;
+			background-color: #eee;
+		}
+
+		#textarea p {
+			display: block;
+			margin: 0;
+			padding: 0;
+		}
+
+		textarea {
+			margin-top: 0;
+			border: 2px solid black;
+		}
+
 	</style>
 </head>
 
@@ -175,8 +193,10 @@
 	</div>
 	<div>
 		<button onclick="save();"><span id="asterisk">＊</span><span id="button_text">画像をダウンロード</span><span id="sharp">＃</span></button>
-		<p>ここに好きな文字を入力してね</p>
-		<textarea rows="4" cols="60" oninput="drawText(this.value);">あいぴーてきすとじぇねれーたー</textarea>
+		<div id="textarea">
+			<p>この下に好きな文字を入力してね</p>
+			<textarea rows="4" cols="60" oninput="drawText(this.value);">あいぴーてきすとじぇねれーたー</textarea>
+		</div>
 		<p>ひらがなしか出てこないよ！<a id="download" href="."></a></p>
 	</div>
 </body>
