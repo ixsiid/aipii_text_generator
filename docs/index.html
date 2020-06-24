@@ -1,14 +1,180 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>あいぴーテキストジェネレータ</title>
-	</head>
-	<body>
-		<canvas>
-			<img src="font/aipii/あ.png">
-			<img src="font/aipii/い.png">
-			<img src="font/aipii/ひ.png">
-			<img src="font/aipii/ー.png">
-		</canvas>
-	</body>
+
+<head>
+	<title>あいぴーテキストジェネレータ</title>
+
+	<script>
+		const context = {};
+		const characters = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん゜ー';
+		const font_name = 'aipii';
+		let loaded = 0;
+
+		let _width = 0;
+
+		const drawText = text => {
+			let x = 15;
+			let prev_height = 0;
+			let prev_width = 0;
+			const canvas_height = 100;
+			text = text
+				.replace('ぱ', 'は゜')
+				.replace('ぴ', 'ひ゜')
+				.replace('ぷ', 'ふ゜')
+				.replace('ぺ', 'へ゜')
+				.replace('ぽ', 'ほ゜')
+
+				.replace('が', 'か゛')
+				.replace('ぎ', 'き゛')
+				.replace('ぐ', 'く゛')
+				.replace('げ', 'け゛')
+				.replace('ご', 'こ゛')
+
+				.replace('ざ', 'さ゛')
+				.replace('じ', 'し゛')
+				.replace('ず', 'す゛')
+				.replace('ぜ', 'せ゛')
+				.replace('ぞ', 'そ゛')
+
+				.replace('だ', 'た゛')
+				.replace('ぢ', 'ち゛')
+				.replace('づ', 'つ゛')
+				.replace('で', 'て゛')
+				.replace('ど', 'と゛')
+
+				.replace('ば', 'は゛')
+				.replace('び', 'ひ゛')
+				.replace('ぶ', 'ふ゛')
+				.replace('べ', 'へ゛')
+				.replace('ぼ', 'ほ゛');
+			console.log(context.canvas);
+			context.canvas.clearRect(0, 0, context.canvas.canvas.width, context.canvas.canvas.height);
+			[].forEach.call(text, chara => {
+				let y = (w, h) => canvas_height - h / 2;
+				let w = (w, h) => w;
+				let h = (w, h) => h;
+
+				if (chara == '゜' || chara == '゛') {
+					y = (w, h) => canvas_height - h / 2 - prev_height * 0.2;
+					x -= prev_width * 0.2;
+				} else if ('ぁぃぅぇぉっゃゅょゎ'.indexOf(chara) >= 0) {
+					y = (w, h) => (canvas_height - h / 2) + h * 0.5;
+					w = (w, h) => w * 0.4;
+					h = (w, h) => h * 0.4;
+					chara = 'あいうえおつやゆよわ'['ぁぃぅぇぉっゃゅょゎ'.indexOf(chara)];
+				}
+
+
+				const image = context.font[chara];
+
+				if (!(image instanceof Image)) {
+					console.log(`No font ${chara}`);
+					console.log(image);
+					return;
+				}
+
+				w = w(image.width, image.height);
+				h = h(w, image.height);
+				y = y(w, h);
+				console.log(`${chara}: ${y} ${w} ${h}`);
+				context.canvas.drawImage(image, x, y, w, h);
+
+				x += w + 3;
+				prev_width = w;
+				prev_height = h;
+			});
+
+			const text_width = x + prev_width + 15;
+			if (_width < text_width) {
+				_width = text_width;
+				setTimeout(() => {
+					context.canvas.canvas.width = _width;
+					drawText(text);
+				}, 50);
+			}
+		};
+
+		window.addEventListener('DOMContentLoaded', () => {
+			context.canvas = document.querySelector('canvas').getContext('2d');
+			_width = context.canvas.canvas.width;
+			context.font = {};
+			[].forEach.call(characters, chara => {
+				const character_image = new Image();
+				character_image.src = `font/${font_name}/${chara}.png`;
+				character_image.onload = () => {
+					context.font[chara] = character_image;
+					loaded++;
+				}
+			});
+
+			setTimeout(() => loaded = characters.length, 5000);
+
+			new Promise((resolve, reject) => {
+				setInterval(() => {
+					if (loaded == characters.length) resolve(true);
+				}, 100);
+			})
+				.catch(() => console.error('フォント読み込みエラー'))
+				.then(() => drawText(document.querySelector('textarea').value));
+		}, { once: true });
+
+		function save() {
+			const data = document.querySelector('canvas').toDataURL('image/png').replace("image/png", "image/octet-stream");
+			const link = document.querySelector('#download');
+			link.setAttribute('href', data);
+			link.setAttribute('download', document.querySelector('textarea').value + '.png');
+			link.click();
+		}
+	</script>
+	<style>
+		button {
+			border: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		#button_text {
+			padding: 0.5em;
+			text-decoration: none;
+			background-color: #f7f7f7;
+			border: none;
+			color: #333333;
+			font-weight: bold;
+		}
+		#button_text:hover {
+			color: #dddddd;
+			background-color: #777;
+		}
+
+		#asterisk {
+			background-color: #82d6fa;
+			color: #fcf050;
+			padding: 0.2em;
+			font-weight: bold;
+			font-size: 150%;
+		}
+
+		#sharp {
+			background-color: #facdd8;
+			color: #46ebf1;
+			padding: 0.2em;
+			font-weight: bold;
+			font-size: 150%;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div>
+		<canvas width="1024" height="256"></canvas>
+	</div>
+	<div>
+		<button onclick="save();"><span id="asterisk">＊</span><span id="button_text">画像をダウンロード</span><span id="sharp">＃</span></button>
+		<p>ここに好きな文字を入力してね</p>
+		<textarea rows="4" cols="60" oninput="drawText(this.value);">あいぴーてきすとじぇねれーたー</textarea>
+		<p>ひらがなしか出てこないよ！<a id="download" href="."></a></p>
+	</div>
+</body>
+
 </html>
