@@ -49,6 +49,9 @@
 				.replace('ぼ', 'ほ゛');
 			console.log(context.canvas);
 			context.canvas.clearRect(0, 0, context.canvas.canvas.width, context.canvas.canvas.height);
+
+			context.canvas.fillStyle = "#FFFFFF";
+			context.canvas.fillRect(0, 0, context.canvas.canvas.width, context.canvas.canvas.height);
 			[].forEach.call(text, chara => {
 				let y = (w, h) => canvas_height - h / 2;
 				let w = (w, h) => w;
@@ -141,6 +144,7 @@
 			color: #333333;
 			font-weight: bold;
 		}
+
 		#button_text:hover {
 			color: #dddddd;
 			background-color: #777;
