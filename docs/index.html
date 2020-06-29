@@ -47,7 +47,6 @@
 				.replace('ぶ', 'ふ゛')
 				.replace('べ', 'へ゛')
 				.replace('ぼ', 'ほ゛');
-			console.log(context.canvas);
 			context.canvas.clearRect(0, 0, context.canvas.canvas.width, context.canvas.canvas.height);
 
 			context.canvas.fillStyle = "#FFFFFF";
@@ -79,7 +78,7 @@
 				w = w(image.width, image.height);
 				h = h(w, image.height);
 				y = y(w, h);
-				console.log(`${chara}: ${y} ${w} ${h}`);
+				// console.log(`${chara}: ${y} ${w} ${h}`);
 				context.canvas.drawImage(image, x, y, w, h);
 
 				x += w + 3;
@@ -184,6 +183,17 @@
 			border: 2px solid black;
 		}
 
+		#alp {
+			position: fixed;
+			bottom: 2em;
+			right: 2em;
+			text-align: right;
+		}
+
+		#alp img {
+			width: 40%;
+		}
+
 	</style>
 </head>
 
@@ -198,6 +208,9 @@
 			<textarea rows="4" cols="60" oninput="drawText(this.value);">あいぴーてきすとじぇねれーたー</textarea>
 		</div>
 		<p>ひらがなしか出てこないよ！<a id="download" href="."></a></p>
+	</div>
+	<div id="alp">
+		<img src="image/alp.svg">
 	</div>
 </body>
 

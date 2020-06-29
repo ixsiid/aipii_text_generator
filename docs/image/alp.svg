@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="150mm"
+   height="132mm"
+   viewBox="0 0 150 132">
+   <g stroke="none">
+      <path fill="#ffcd40" d="M 38.688268,3.157247 71.31324,48.25672 2.624966,127.63577 Z"/>
+      <path fill="#93b6dd" d="M 79.86586,52.26577 9.841245,128.70485 147.48505,57.34389 Z"/>
+      <path fill="#f0b4d3" d="M 117.01632,82.19995 95.63476,130.843 21.333833,129.23938 Z"/>
+   </g>
+</svg>
